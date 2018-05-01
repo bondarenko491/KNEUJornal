@@ -2,6 +2,7 @@ package ua.edu.kneu.kneujornal;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -164,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
+                setResult(RESULT_OK,new Intent().putExtra("token","dfgdsfgdsfg"));
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

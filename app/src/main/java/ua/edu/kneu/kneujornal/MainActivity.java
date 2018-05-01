@@ -1,6 +1,5 @@
 package ua.edu.kneu.kneujornal;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,18 +8,32 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
     private String token;
+    private SharedPreferences mSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences mSettings;
+
         mSettings = getPreferences(Context.MODE_PRIVATE);
+
+
         token = mSettings.getString("token","");
         if(token.isEmpty()) {
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),0);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == RESULT_OK){
+            token = data.getStringExtra("token");
+            mSettings.edit().putString("token",token).commit();
         }
     }
 
@@ -39,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_sign_out: {
-                SharedPreferences mSettings;
-                mSettings = getPreferences(Context.MODE_PRIVATE);
-                mSettings.edit().remove("token");
+                mSettings.edit().remove("token").commit();
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
                 break;
             }
