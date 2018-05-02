@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void rowClick(View view){
+        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
+                ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -54,10 +62,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_sign_out: {
                 mSettings.edit().remove("token").commit();
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                break;
-            }
-            case R.id.action_main2: {
-                startActivity(new Intent(MainActivity.this,Main2Activity.class));
                 break;
             }
         }

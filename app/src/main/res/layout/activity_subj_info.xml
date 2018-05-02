@@ -11,7 +11,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-            <TextView android:layout_width="fill_parent"
+            <TextView android:id="@+id/subj_name"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Предмет"
                 android:gravity="center_horizontal"

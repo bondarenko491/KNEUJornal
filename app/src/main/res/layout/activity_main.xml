@@ -23,50 +23,39 @@
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </TableRow>
-
-        <TableRow android:padding="2dp">
-            <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Назва предмету"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="#ffffff"/>
-            <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="бал/рейтинг"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="#ffffff"/>
-        </TableRow>
-
-        <TableRow android:padding="2dp">
+        <TableRow android:padding="2dp"
+            android:id="@+id/first"
+            android:onClick="rowClick">
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="dfgdfh"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="#ccc"/>
+                android:background="#ffffff"/>
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="348"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="#ccc"/>
+                android:background="#ffffff"/>
         </TableRow>
 
-        <TableRow android:padding="2dp">
+        <TableRow android:padding="2dp"
+            android:id="@+id/second"
+            android:onClick="rowClick">
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="fhfgh"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="#ffffff"/>
+                android:background="#ccc"/>
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="305"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:background="#ffffff"/>
+                android:background="#ccc"/>
         </TableRow>
     </TableLayout>
+
 </android.support.constraint.ConstraintLayout>
