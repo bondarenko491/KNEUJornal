@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
                 break;
             }
+            case R.id.action_main2: {
+                startActivity(new Intent(MainActivity.this,Main2Activity.class));
+                break;
+            }
         }
         return false;
     }
