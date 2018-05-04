@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void rowClick(View view){
+    public void rowClick(View view) {
         startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
                 ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
     }
