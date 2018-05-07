@@ -1,8 +1,10 @@
 package ua.edu.kneu.kneujornal;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String token;
     private SharedPreferences mSettings;
+    AlertDialog.Builder ad;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,31 @@ public class MainActivity extends AppCompatActivity {
         if(token.isEmpty()) {
             startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),0);
         }
+
+        context = MainActivity.this;
+        String button1String = "Нет";
+        String button2String = "Да";
+
+        ad = new AlertDialog.Builder(context);
+        ad.setTitle("Выход");
+        ad.setMessage("Вы уверены, что хотите выйти?");
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                Toast.makeText(context, "Деавторизация", Toast.LENGTH_LONG)
+                        .show();
+                mSettings.edit().remove("token").commit();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+            }
+        });
     }
 
     @Override
@@ -60,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_sign_out: {
-                mSettings.edit().remove("token").commit();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                ad.show();
                 break;
             }
         }
