@@ -36,27 +36,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         context = MainActivity.this;
-        String button1String = "Нет";
-        String button2String = "Да";
 
         ad = new AlertDialog.Builder(context);
         ad.setTitle("Выход");
         ad.setMessage("Вы уверены, что хотите выйти?");
-        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-            }
-        });
-        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+        ad.setPositiveButton("Нет", null);
+        ad.setNegativeButton("Да", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 Toast.makeText(context, "Деавторизация", Toast.LENGTH_LONG)
                         .show();
                 mSettings.edit().remove("token").commit();
                 startActivity(new Intent(MainActivity.this,LoginActivity.class));
-            }
-        });
-        ad.setCancelable(true);
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
             }
         });
     }
