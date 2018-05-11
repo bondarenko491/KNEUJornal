@@ -1,12 +1,16 @@
 package ua.edu.kneu.kneujornal;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,9 +50,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, "Деавторизация", Toast.LENGTH_LONG)
                         .show();
                 mSettings.edit().remove("token").commit();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),0);
             }
         });
+
+        startService(new Intent(this,CommunicationJobService.class));
     }
 
     @Override

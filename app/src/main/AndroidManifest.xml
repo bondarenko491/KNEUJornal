@@ -22,7 +22,11 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".SubjInfoActivity"></activity>
+
+        <activity android:name=".SubjInfoActivity"/>
+
+        <service android:name=".CommunicationJobService"
+                 android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>
