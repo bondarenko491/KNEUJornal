@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this,CommunicationJobService.class).putExtra("chek_login",""));
 
-
-
-
-
         context = MainActivity.this;
 
         ad = new AlertDialog.Builder(context);
@@ -61,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onDestroy() {
