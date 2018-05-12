@@ -7,16 +7,33 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+
 
 public class CommunicationJobService extends Service {
     private SharedPreferences mSettings;
     private String token;
+
+    private OkHttpClient client;
 
     @Override
     public void onCreate() {
         mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = mSettings.getString("auth_token","");
 
+        client = new OkHttpClient();
+        Request request = new Request.Builder().url("ws://echo.websocket.org").build();
+        EchoWebSocketListner listner = new EchoWebSocketListner();
+        WebSocket ws = client.newWebSocket(request,listner);
+
+
+        client.dispatcher().executorService().shutdown();
         super.onCreate();
     }
 
@@ -46,6 +63,27 @@ public class CommunicationJobService extends Service {
             }
         }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private final class EchoWebSocketListner extends WebSocketListener{
+        @Override
+        public void onOpen(WebSocket webSocket, Response response) {
+            webSocket.send("Hello world!");
+            webSocket.send("Lol kek cheburek");
+            super.onOpen(webSocket, response);
+        }
+
+        @Override
+        public void onMessage(WebSocket webSocket, String text) {
+            Log.i("KNEU_TOPCHIK", text);
+            super.onMessage(webSocket, text);
+        }
+
+        @Override
+        public void onClosing(WebSocket webSocket, int code, String reason) {
+            webSocket.close(100,null);
+            super.onClosing(webSocket, code, reason);
+        }
     }
 
     @Nullable
