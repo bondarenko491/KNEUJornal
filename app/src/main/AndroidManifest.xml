@@ -31,9 +31,6 @@
 
         <service android:name=".CommunicationJobService"
                  android:permission="android.permission.BIND_JOB_SERVICE">
-            <intent-filter>
-                <action android:name="ACTION_LOGIN"/>
-            </intent-filter>
         </service>
     </application>
 

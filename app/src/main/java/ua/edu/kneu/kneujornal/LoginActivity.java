@@ -36,14 +36,12 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
-    private LocalBroadcastManager bManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        bManager = LocalBroadcastManager.getInstance(this);
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_LOGIN_RESULT);
         bManager.registerReceiver(bReceiver,intentFilter);
@@ -77,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        bManager.unregisterReceiver(bReceiver);
         super.onDestroy();
     }
 
@@ -135,8 +132,8 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             showProgress(true);
 
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(CommunicationJobService.ACTION_LOGIN)
-                    .putExtra("login",email).putExtra("pass",password));
+            startService(new Intent(this,CommunicationJobService.class)
+                    .putExtra("action","sign_in").putExtra("login",email).putExtra("pass",password));
         }
     }
 
@@ -147,11 +144,10 @@ public class LoginActivity extends AppCompatActivity {
                 showProgress(false);
                 if (intent.getBooleanExtra("wrong_pass",false)){
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
-                    mPasswordView.requestFocus();
                 } else {
                     mEmailView.setError(getString(R.string.error_invalid_email));
-                    mEmailView.requestFocus();
                 }
+                mEmailView.requestFocus();
             } else {
                 finish();
             }

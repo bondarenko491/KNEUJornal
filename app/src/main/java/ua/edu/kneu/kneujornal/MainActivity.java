@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
     static final String ACTION_MAIN_RECEIVER = "ACTION_MAIN_RECEIVER";
     LocalBroadcastManager bManager;
 
-    AlertDialog.Builder ad;
-    Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,26 +37,8 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(ACTION_MAIN_RECEIVER);
         bManager.registerReceiver(bReceiver,intentFilter);
 
-        startService(new Intent(this,CommunicationJobService.class).putExtra("chek_login",""));
+        startService(new Intent(this,CommunicationJobService.class).putExtra("action","chek_login"));
 
-
-
-
-
-        context = MainActivity.this;
-
-        ad = new AlertDialog.Builder(context);
-        ad.setTitle("Выход");
-        ad.setMessage("Вы уверены, что хотите выйти?");
-        ad.setPositiveButton("Нет", null);
-        ad.setNegativeButton("Да", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                Toast.makeText(context, "Деавторизация", Toast.LENGTH_LONG)
-                        .show();
-                //mSettings.edit().remove("token").commit();
-                startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),0);
-            }
-        });
     }
 
     @Override
@@ -88,7 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.action_sign_out: {
-                ad.show();
+                new AlertDialog.Builder(MainActivity.this).setTitle("Выход")
+                        .setMessage("Вы уверены, что хотите выйти?").setPositiveButton("Нет", null)
+                        .setNegativeButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        startService(new Intent(MainActivity.this,CommunicationJobService.class)
+                                .putExtra("action","sign_out"));
+                    }
+                }).show();
                 break;
             }
         }
@@ -98,11 +84,10 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getStringExtra("action");
-
-            switch (action){
+            switch (intent.getStringExtra("action")){
                 case "no_login":
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    break;
             }
         }
     };
