@@ -1,5 +1,6 @@
 package ua.edu.kneu.kneujornal;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private String token;
-    private SharedPreferences mSettings;
     AlertDialog.Builder ad;
     Context context;
 
@@ -31,13 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSettings = getPreferences(Context.MODE_PRIVATE);
+        startService(new Intent(this,CommunicationJobService.class));
 
 
-        token = mSettings.getString("token","");
-        if(token.isEmpty()) {
-            startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),0);
-        }
+
+
 
         context = MainActivity.this;
 
@@ -49,19 +47,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int arg1) {
                 Toast.makeText(context, "Деавторизация", Toast.LENGTH_LONG)
                         .show();
-                mSettings.edit().remove("token").commit();
+                //mSettings.edit().remove("token").commit();
                 startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),0);
             }
         });
-
-        startService(new Intent(this,CommunicationJobService.class));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK){
             token = data.getStringExtra("token");
-            mSettings.edit().putString("token",token).commit();
+            //mSettings.edit().putString("token",token).commit();
         }
     }
 

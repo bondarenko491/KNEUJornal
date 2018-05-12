@@ -2,7 +2,11 @@ package ua.edu.kneu.kneujornal;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -24,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    static final String ACTION_LOGIN_RESULT = "ACTION_LOGIN_RESULT";
 
     // UI references.
     private EditText mEmailView;
@@ -36,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_LOGIN_RESULT);
+        bManager.registerReceiver(bReceiver,intentFilter);
 
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
@@ -80,10 +89,6 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -121,64 +126,29 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(CommunicationJobService.ACTION_LOGIN)
+                    .putExtra("login",email).putExtra("pass",password));
         }
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
+    private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            if (mEmail.equals("lol")) {
-                // Account exists, return true if the password matches.
-                return mPassword.equals("kek");
-            }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                setResult(RESULT_OK,new Intent().putExtra("token","dfgdsfgdsfg"));
-                finish();
+        public void onReceive(Context context, Intent intent) {
+            if (!intent.getBooleanExtra("success",false)) {
+                showProgress(false);
+                if (intent.getBooleanExtra("wrong_pass",false)){
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                } else {
+                    mEmailView.setError(getString(R.string.error_invalid_email));
+                    mEmailView.requestFocus();
+                }
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                finish();
             }
         }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
+    };
 
     @Override
     public void onBackPressed(){
