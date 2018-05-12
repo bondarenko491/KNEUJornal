@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     static final String ACTION_LOGIN_RESULT = "ACTION_LOGIN_RESULT";
+    LocalBroadcastManager bManager;
 
     // UI references.
     private EditText mEmailView;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_LOGIN_RESULT);
         bManager.registerReceiver(bReceiver,intentFilter);
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        bManager.unregisterReceiver(bReceiver);
         super.onDestroy();
     }
 
