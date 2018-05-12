@@ -36,12 +36,14 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    private LocalBroadcastManager bManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_LOGIN_RESULT);
         bManager.registerReceiver(bReceiver,intentFilter);
@@ -71,6 +73,12 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    protected void onDestroy() {
+        bManager.unregisterReceiver(bReceiver);
+        super.onDestroy();
     }
 
     private boolean isEmailValid(String email) {

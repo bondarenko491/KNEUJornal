@@ -1,13 +1,16 @@
 package ua.edu.kneu.kneujornal;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,8 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    static final String ACTION_MAIN_RECEIVER = "ACTION_MAIN_RECEIVER";
+    LocalBroadcastManager bManager;
 
-    private String token;
     AlertDialog.Builder ad;
     Context context;
 
@@ -31,7 +35,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startService(new Intent(this,CommunicationJobService.class));
+        bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_MAIN_RECEIVER);
+        bManager.registerReceiver(bReceiver,intentFilter);
+
+        startService(new Intent(this,CommunicationJobService.class).putExtra("chek_login",""));
 
 
 
@@ -54,11 +63,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (resultCode == RESULT_OK){
-            token = data.getStringExtra("token");
-            //mSettings.edit().putString("token",token).commit();
-        }
+    protected void onDestroy() {
+        bManager.unregisterReceiver(bReceiver);
+        super.onDestroy();
     }
 
     public void rowClick(View view) {
@@ -87,4 +94,18 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    private BroadcastReceiver bReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getStringExtra("action");
+
+            switch (action){
+                case "no_login":
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        }
+    };
 }
+
+

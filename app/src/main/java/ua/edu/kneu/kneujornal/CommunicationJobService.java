@@ -1,5 +1,6 @@
 package ua.edu.kneu.kneujornal;
 
+import android.app.ActivityManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,13 +15,15 @@ import android.support.v4.content.LocalBroadcastManager;
 public class CommunicationJobService extends Service {
     static final String ACTION_LOGIN = "ACTION_LOGIN";
 
+    LocalBroadcastManager bManager;
+
     private SharedPreferences mSettings;
     private String token;
 
     @Override
     public void onCreate() {
 
-        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_LOGIN);
         bManager.registerReceiver(bReceiver,intentFilter);
@@ -28,14 +31,20 @@ public class CommunicationJobService extends Service {
         mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = mSettings.getString("auth_token","");
 
+
         if (token.isEmpty())
-            startActivity(new Intent(this,LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
+                    .putExtra("action","no_login"));
 
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && intent.hasExtra("chek_login"))
+            if (token.isEmpty())
+                LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
+                        .putExtra("action","no_login"));
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -49,6 +58,12 @@ public class CommunicationJobService extends Service {
                     .putExtra("success",true));
         }
     };
+
+    @Override
+    public void onDestroy() {
+        bManager.unregisterReceiver(bReceiver);
+        super.onDestroy();
+    }
 
     @Nullable
     @Override
