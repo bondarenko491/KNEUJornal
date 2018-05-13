@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,20 +22,28 @@ public class CommunicationJobService extends Service {
     private SharedPreferences mSettings;
     private String token;
 
-    private OkHttpClient client;
+    private WebSocket ws = null;
 
     @Override
     public void onCreate() {
         mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = mSettings.getString("auth_token","");
 
+<<<<<<< HEAD
         client = new OkHttpClient();
         Request request = new Request.Builder().url("ws://home-server.ddns.ukrtel.net:1337").build();
         EchoWebSocketListner listner = new EchoWebSocketListner();
         WebSocket ws = client.newWebSocket(request,listner);
+=======
+>>>>>>> c560ea66a165b0e1c02854541b2d39a7d1b188b9
 
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url("ws://home-server.ddns.ukrtel.net:1337").build();
+        EchoWebSocketListener listener = new EchoWebSocketListener();
+        ws = client.newWebSocket(request, listener);
 
         client.dispatcher().executorService().shutdown();
+
         super.onCreate();
     }
 
@@ -48,6 +58,17 @@ public class CommunicationJobService extends Service {
                                 .putExtra("action","no_login"));
                     break;
                 case "sign_in":
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("action","login");
+                        obj.put("email",intent.getStringExtra("login"));
+                        obj.put("pass",intent.getStringExtra("pass"));
+
+                        ws.send(obj.toString());
+                    } catch (Exception e) {
+                        Log.w("KNEUJornal",e.getLocalizedMessage());
+                    }
+
                     mSettings.edit().putString("auth_token",intent.getStringExtra("login")+
                             intent.getStringExtra("pass")+"=cheburek").commit();
 
@@ -65,11 +86,11 @@ public class CommunicationJobService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private final class EchoWebSocketListner extends WebSocketListener{
+    private final class EchoWebSocketListener extends WebSocketListener{
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
-            webSocket.send("Hello world!");
-            webSocket.send("Lol kek cheburek");
+            //webSocket.send("Hello world!");
+            //webSocket.send("Lol kek cheburek");
             super.onOpen(webSocket, response);
         }
 
