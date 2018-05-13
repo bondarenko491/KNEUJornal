@@ -28,7 +28,7 @@ public class CommunicationJobService extends Service {
         token = mSettings.getString("auth_token","");
 
         client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://echo.websocket.org").build();
+        Request request = new Request.Builder().url("ws://home-server.ddns.ukrtel.net:1337").build();
         EchoWebSocketListner listner = new EchoWebSocketListner();
         WebSocket ws = client.newWebSocket(request,listner);
 

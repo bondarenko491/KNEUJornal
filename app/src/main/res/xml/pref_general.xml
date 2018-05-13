@@ -30,16 +30,4 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_add_friends_to_messages" />
 
-    <SwitchPreference
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Toggle Theme"
-        android:id="@+id/switch1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-
 </PreferenceScreen>
