@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
@@ -28,14 +29,6 @@ public class CommunicationJobService extends Service {
     public void onCreate() {
         mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = mSettings.getString("auth_token","");
-
-<<<<<<< HEAD
-        client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://home-server.ddns.ukrtel.net:1337").build();
-        EchoWebSocketListner listner = new EchoWebSocketListner();
-        WebSocket ws = client.newWebSocket(request,listner);
-=======
->>>>>>> c560ea66a165b0e1c02854541b2d39a7d1b188b9
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url("ws://home-server.ddns.ukrtel.net:1337").build();
@@ -69,11 +62,7 @@ public class CommunicationJobService extends Service {
                         Log.w("KNEUJornal",e.getLocalizedMessage());
                     }
 
-                    mSettings.edit().putString("auth_token",intent.getStringExtra("login")+
-                            intent.getStringExtra("pass")+"=cheburek").commit();
 
-                    LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
-                            .putExtra("success",true));
                     break;
                 case "sign_out":
                     mSettings.edit().remove("auth_token").commit();
@@ -96,7 +85,29 @@ public class CommunicationJobService extends Service {
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
-            Log.i("KNEU_TOPCHIK", text);
+            try {
+                JSONObject obj = new JSONObject(text);
+                if (obj.has("error"))
+                    switch (obj.getString("error")){
+                        case "email":
+                            LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
+                                    .putExtra("wrong_pass",false));
+                            break;
+                        case "pass":
+                            LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
+                                    .putExtra("wrong_pass",true));
+                            break;
+                    }
+                if (obj.has("token")){
+                    mSettings.edit().putString("auth_token",obj.getString("token")).commit();
+
+                    LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
+                            .putExtra("success",true));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             super.onMessage(webSocket, text);
         }
 

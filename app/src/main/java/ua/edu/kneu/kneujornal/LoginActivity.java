@@ -146,10 +146,11 @@ public class LoginActivity extends AppCompatActivity {
                 showProgress(false);
                 if (intent.getBooleanExtra("wrong_pass",false)){
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
                 } else {
                     mEmailView.setError(getString(R.string.error_invalid_email));
+                    mEmailView.requestFocus();
                 }
-                mEmailView.requestFocus();
             } else {
                 finish();
             }
