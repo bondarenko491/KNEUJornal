@@ -65,6 +65,15 @@ public class CommunicationJobService extends Service {
 
                     break;
                 case "sign_out":
+                    obj = new JSONObject();
+                    try {
+                        obj.put("action","logout");
+                        obj.put("token",token);
+
+                        ws.send(obj.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     mSettings.edit().remove("auth_token").commit();
                     token = "";
                     LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
@@ -99,7 +108,8 @@ public class CommunicationJobService extends Service {
                             break;
                     }
                 if (obj.has("token")){
-                    mSettings.edit().putString("auth_token",obj.getString("token")).commit();
+                    token = obj.getString("token");
+                    mSettings.edit().putString("auth_token",token).commit();
 
                     LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
                             .putExtra("success",true));
