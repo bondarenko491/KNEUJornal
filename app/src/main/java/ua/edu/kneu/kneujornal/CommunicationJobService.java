@@ -25,17 +25,23 @@ public class CommunicationJobService extends Service {
 
     private WebSocket ws = null;
 
-    @Override
-    public void onCreate() {
-        mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        token = mSettings.getString("auth_token","");
-
+    private void ServerConnect(){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url("ws://home-server.ddns.ukrtel.net:1337").build();
         EchoWebSocketListener listener = new EchoWebSocketListener();
         ws = client.newWebSocket(request, listener);
 
         client.dispatcher().executorService().shutdown();
+
+        Log.i("KNEU_TOPCHIK","Start");
+    }
+
+    @Override
+    public void onCreate() {
+        mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        token = mSettings.getString("auth_token","");
+
+        ServerConnect();
 
         super.onCreate();
     }
@@ -125,6 +131,19 @@ public class CommunicationJobService extends Service {
         public void onClosing(WebSocket webSocket, int code, String reason) {
             webSocket.close(100,null);
             super.onClosing(webSocket, code, reason);
+        }
+
+
+        @Override
+        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            try {
+                Thread.sleep(5000);
+                ServerConnect();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            super.onFailure(webSocket, t, response);
         }
     }
 
