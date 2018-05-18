@@ -125,15 +125,19 @@ public class CommunicationJobService extends Service {
 
                 if (obj.has("subjects")){
                     int r_count = obj.getJSONArray("subjects").length();
-
+                    Intent intent = new Intent(MainActivity.ACTION_MAIN_RECEIVER);
+                    intent.putExtra("count",r_count);
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
-
-                        LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
-                                .putExtra("id",data.getString(0)).putExtra("teacherInfo",data.getString(2))
-                                .putExtra("nazva",data.getString(1)).putExtra("mark",data.getString(3))
-                                .putExtra("maxMark",data.getString(4)));
+                        String[] st = new String[5];
+                        st[0] = data.getString(0);
+                        st[1] = data.getString(2);
+                        st[2] = data.getString(1);
+                        st[3] = data.getString(3);
+                        st[4] = data.getString(4);
+                        intent.putExtra(Integer.toString(i),st);
                     }
+                    LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(intent);
                 }
 
                 if (obj.has("marks")){

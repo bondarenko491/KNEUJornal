@@ -150,11 +150,19 @@ public class MainActivity extends AppCompatActivity {
 
                     case "subjects":
                         ContentValues row1 = new ContentValues();
-                        row1.put("_id", intent.getStringExtra("id"));
-                        row1.put("teacherInfo", intent.getStringExtra("teacherInfo"));
-                        row1.put("nazva", intent.getStringExtra("nazva"));
-                        row1.put("mark", intent.getStringExtra("mark"));
-                        row1.put("maxMark", intent.getStringExtra("maxMark"));
+                        String[] st = new String[5];
+                        int r_count = intent.getIntExtra("count",0);
+
+                        for (int i=0;i<r_count;i++){
+                            st = intent.getStringArrayExtra(Integer.toString(i));
+                            row1.put("_id", st[0]);
+                            row1.put("teacherInfo", st[1]);
+                            row1.put("nazva", st[2]);
+                            row1.put("mark", st[3]);
+                            row1.put("maxMark", st[4]);
+                        }
+
+
                         myDbHelper.inset1("main", row1);
 
                         break;
