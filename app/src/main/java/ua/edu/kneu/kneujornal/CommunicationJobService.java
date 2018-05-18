@@ -123,7 +123,7 @@ public class CommunicationJobService extends Service {
                 }
 
                 if (obj.has("subjects")){
-                    int r_count = obj.getInt("count");
+                    int r_count = obj.getJSONArray("subjects").length();
 
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
@@ -132,6 +132,17 @@ public class CommunicationJobService extends Service {
                         Log.i("KNEU_TOPCHIK", data.getString(2));
                         Log.i("KNEU_TOPCHIK",data.getString(3));
                         Log.i("KNEU_TOPCHIK",data.getString(4));
+                    }
+                }
+
+                if (obj.has("marks")){
+                    int r_count = obj.getJSONArray("marks").length();
+
+                    for (int i=0;i<r_count;i++){
+                        JSONArray data = obj.getJSONArray("marks").getJSONArray(i);
+                        Log.i("KNEU_TOPCHIK", data.getString(0));
+                        Log.i("KNEU_TOPCHIK", data.getString(1));
+                        Log.i("KNEU_TOPCHIK", data.getString(2));
                     }
                 }
 
