@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_horizontal"
-                android:text="dfgdfh"
+                android:id="@+id/text1"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ccc"
                 android:gravity="center_horizontal"
-                android:text="fhfgh"
+                android:id="@+id/text2"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -74,6 +74,115 @@
                 android:text="305"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
+        <TableRow
+            android:id="@+id/tree"
+            android:onClick="rowClick"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:id="@+id/text3"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:text="348"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/four"
+            android:onClick="rowClick"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ccc"
+                android:gravity="center_horizontal"
+                android:id="@+id/text4"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ccc"
+                android:gravity="center_horizontal"
+                android:text="305"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/five"
+            android:onClick="rowClick"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:id="@+id/text5"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:text="348"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/six"
+            android:onClick="rowClick"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ccc"
+                android:gravity="center_horizontal"
+                android:id="@+id/text6"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ccc"
+                android:gravity="center_horizontal"
+                android:text="305"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/seven"
+            android:onClick="rowClick"
+            android:padding="2dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:id="@+id/text7"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:text="348"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+
     </TableLayout>
 
 </android.support.constraint.ConstraintLayout>
