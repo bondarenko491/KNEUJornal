@@ -14,15 +14,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,17 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this,CommunicationJobService.class).putExtra("action","chek_login"));
 
+        test2();
     }
 
     @Override
     protected void onDestroy() {
         bManager.unregisterReceiver(bReceiver);
         super.onDestroy();
-    }
-
-    public void rowClick(View view) {
-        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
-                ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
     }
 
     @Override
@@ -158,6 +159,39 @@ public class MainActivity extends AppCompatActivity {
             }
             i++;
         }
+    }
+
+    private void test2(){
+        TableLayout table = findViewById(R.id.subj_list);
+        TableRow nRow = new TableRow(table.getContext());
+        nRow.setBackgroundColor(table.getContext().getResources().getColor(R.color.gray));
+
+        nRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rowClick(v);
+            }
+        });
+
+        TextView subjName = new TextView(nRow.getContext());
+        subjName.setGravity(Gravity.CENTER_HORIZONTAL);
+        subjName.setTextAppearance(this,R.style.TextAppearance_AppCompat_Medium);
+        subjName.setText("test123");
+
+        TextView mark = new TextView(nRow.getContext());
+        mark.setGravity(Gravity.CENTER_HORIZONTAL);
+        mark.setTextAppearance(this,R.style.TextAppearance_AppCompat_Medium);
+        mark.setText("testr123");
+
+
+        nRow.addView(subjName);
+        nRow.addView(mark);
+        table.addView(nRow);
+    }
+
+    public void rowClick(View view) {
+        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
+                ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
     }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
