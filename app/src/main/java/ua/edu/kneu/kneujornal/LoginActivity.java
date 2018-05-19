@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -142,17 +143,27 @@ public class LoginActivity extends AppCompatActivity {
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!intent.getBooleanExtra("success",false)) {
-                showProgress(false);
-                if (intent.getBooleanExtra("wrong_pass",false)){
+            switch (intent.getStringExtra("action")){
+                case "success":
+                    finish();
+                    break;
+                case "wrong_pass":
+                    showProgress(false);
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
-                } else {
+                    break;
+                case "wrong_email":
+                    showProgress(false);
                     mEmailView.setError(getString(R.string.error_invalid_email));
                     mEmailView.requestFocus();
-                }
-            } else {
-                finish();
+                    break;
+                case "connection_lost":
+                    if (mProgressView.getVisibility() == View.VISIBLE){
+                        showProgress(false);
+                        new AlertDialog.Builder(LoginActivity.this).setTitle("Помилка")
+                            .setMessage("Відсутній зв`язок з сервером").setPositiveButton("Добре", null).show();
+                    }
+                    break;
             }
         }
     };

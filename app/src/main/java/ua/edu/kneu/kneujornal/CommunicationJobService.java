@@ -39,7 +39,7 @@ public class CommunicationJobService extends Service {
 
         client.dispatcher().executorService().shutdown();
 
-        Log.i("KNEU_TOPCHIK","Start");
+        //Log.i("KNEU_TOPCHIK","Start");
     }
 
     @Override
@@ -113,8 +113,6 @@ public class CommunicationJobService extends Service {
     private final class EchoWebSocketListener extends WebSocketListener{
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
-            //webSocket.send("Hello world!");
-            //webSocket.send("Lol kek cheburek");
             super.onOpen(webSocket, response);
         }
 
@@ -126,11 +124,11 @@ public class CommunicationJobService extends Service {
                     switch (obj.getString("error")){
                         case "email":
                             LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
-                                    .putExtra("wrong_pass",false));
+                                    .putExtra("action","wrong_email"));
                             break;
                         case "pass":
                             LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
-                                    .putExtra("wrong_pass",true));
+                                    .putExtra("action","wrong_pass"));
                             break;
                     }
                 if (obj.has("token")){
@@ -138,7 +136,7 @@ public class CommunicationJobService extends Service {
                     mSettings.edit().putString("auth_token",token).commit();
 
                     LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
-                            .putExtra("success",true));
+                            .putExtra("action","success"));
                 }
 
                 if (obj.has("subjects")){
@@ -189,6 +187,10 @@ public class CommunicationJobService extends Service {
 
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            if (token.isEmpty()){
+                LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
+                        .putExtra("action","connection_lost"));
+            }
             try {
                 Thread.sleep(5000);
                 ServerConnect();
