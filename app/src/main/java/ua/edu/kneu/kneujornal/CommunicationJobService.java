@@ -144,6 +144,9 @@ public class CommunicationJobService extends Service {
                 if (obj.has("subjects")){
                     int r_count = obj.getJSONArray("subjects").length();
                     ContentValues row1 = new ContentValues();
+
+                    myDbHelper.delete1("subjects");
+
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
 

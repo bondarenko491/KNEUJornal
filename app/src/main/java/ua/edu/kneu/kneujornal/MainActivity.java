@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             name = myCursor.getString(2);
             mark = myCursor.getString(3);
             maxMark = myCursor.getString(4);
-            String temp = mark + "|" + mark;
+            String temp = mark + "|" + maxMark;
             switch (i) {
                 case 1:
                     TextView textView1 = findViewById(R.id.text1);

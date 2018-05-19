@@ -128,6 +128,9 @@ public class dataBaseHelper extends SQLiteOpenHelper{
         myDataBase.insert(quary, null, row1);
     }
 
+    public void delete1(String table){ myDataBase.delete(table,null,null);}
+
+
     // Здесь можно добавить вспомогательные методы для доступа и получения данных из БД
     // вы можете возвращать курсоры через "return myDataBase.query(....)", это облегчит их использование
     // в создании адаптеров для ваших view
