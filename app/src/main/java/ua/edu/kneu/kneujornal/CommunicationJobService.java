@@ -155,7 +155,8 @@ public class CommunicationJobService extends Service {
                         row1.put("maxMark", data.getString(4));
                         myDbHelper.inset1("main", row1);
                     }
-
+                    LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
+                            .putExtra("action","update"));
                 }
 
                 if (obj.has("marks")){

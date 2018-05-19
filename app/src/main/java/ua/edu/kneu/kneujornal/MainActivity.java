@@ -52,6 +52,58 @@ public class MainActivity extends AppCompatActivity {
         }catch(SQLiteException sqle){
             throw sqle;
         }
+        update_subj_list();
+
+        bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_MAIN_RECEIVER);
+        bManager.registerReceiver(bReceiver,intentFilter);
+
+        startService(new Intent(this,CommunicationJobService.class).putExtra("action","chek_login"));
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        bManager.unregisterReceiver(bReceiver);
+        super.onDestroy();
+    }
+
+    public void rowClick(View view) {
+        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
+                ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_open_settings: {
+                startActivity(new Intent(MainActivity.this,SettingsActivity.class));
+                break;
+            }
+            case R.id.action_sign_out: {
+                new AlertDialog.Builder(MainActivity.this).setTitle("Выход")
+                        .setMessage("Вы уверены, что хотите выйти?").setPositiveButton("Нет", null)
+                        .setNegativeButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        startService(new Intent(MainActivity.this,CommunicationJobService.class)
+                                .putExtra("action","sign_out"));
+                    }
+                }).show();
+                break;
+            }
+        }
+        return false;
+    }
+
+    private void update_subj_list(){
         Cursor myCursor = myDbHelper.onrawquary("SELECT * FROM main;");
         String name, mark, maxMark;
         int i=1;
@@ -106,54 +158,6 @@ public class MainActivity extends AppCompatActivity {
             }
             i++;
         }
-
-        bManager = LocalBroadcastManager.getInstance(this);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ACTION_MAIN_RECEIVER);
-        bManager.registerReceiver(bReceiver,intentFilter);
-
-        startService(new Intent(this,CommunicationJobService.class).putExtra("action","chek_login"));
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        bManager.unregisterReceiver(bReceiver);
-        super.onDestroy();
-    }
-
-    public void rowClick(View view) {
-        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
-                ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_open_settings: {
-                startActivity(new Intent(MainActivity.this,SettingsActivity.class));
-                break;
-            }
-            case R.id.action_sign_out: {
-                new AlertDialog.Builder(MainActivity.this).setTitle("Выход")
-                        .setMessage("Вы уверены, что хотите выйти?").setPositiveButton("Нет", null)
-                        .setNegativeButton("Да", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        startService(new Intent(MainActivity.this,CommunicationJobService.class)
-                                .putExtra("action","sign_out"));
-                    }
-                }).show();
-                break;
-            }
-        }
-        return false;
     }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
@@ -164,21 +168,9 @@ public class MainActivity extends AppCompatActivity {
                     case "no_login":
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         break;
-
-                    case "subjects":
-                        /*ContentValues row1 = new ContentValues();
-                        String[] st = new String[5];
-                        int r_count = intent.getIntExtra("count",0);
-                        for (int i=0;i<r_count;i++){
-                            st = intent.getStringArrayExtra(Integer.toString(i));
-                            row1.put("_id", st[0]);
-                            row1.put("teacherInfo", st[1]);
-                            row1.put("nazva", st[2]);
-                            row1.put("mark", st[3]);
-                            row1.put("maxMark", st[4]);
-                        }
-                        myDbHelper.inset1("main", row1);
-                        break;*/
+                    case "update":
+                        update_subj_list();
+                        break;
                 }
 
             }

@@ -16,7 +16,8 @@ import java.io.OutputStream;
 public class dataBaseHelper extends SQLiteOpenHelper{
 
     // путь к базе данных вашего приложения
-    private static String DB_PATH = "/data/data/ua.edu.kneu.kneujornal/databases/";
+    private String DB_PATH;
+
     private static String DB_NAME = "kneu.db";
     private SQLiteDatabase myDataBase;
     private final Context mContext;
@@ -28,6 +29,7 @@ public class dataBaseHelper extends SQLiteOpenHelper{
      */
     public dataBaseHelper(Context context) {
         super(context, DB_NAME, null, 1);
+        DB_PATH = context.getDatabasePath(DB_NAME).getParent()+"/";
         this.mContext = context;
     }
 
