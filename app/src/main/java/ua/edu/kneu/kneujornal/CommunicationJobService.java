@@ -1,9 +1,11 @@
 package ua.edu.kneu.kneujornal;
 
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -13,6 +15,8 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,7 +28,7 @@ import okhttp3.WebSocketListener;
 public class CommunicationJobService extends Service {
     private SharedPreferences mSettings;
     private String token;
-
+    dataBaseHelper myDbHelper;
     private WebSocket ws = null;
 
     private void ServerConnect(){
@@ -42,6 +46,20 @@ public class CommunicationJobService extends Service {
     public void onCreate() {
         mSettings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         token = mSettings.getString("auth_token","");
+        myDbHelper = new dataBaseHelper(this);
+
+
+        try {
+            myDbHelper.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            myDbHelper.openDataBase();
+        }catch(SQLiteException sqle){
+            throw sqle;
+        }
 
         ServerConnect();
 
@@ -125,29 +143,31 @@ public class CommunicationJobService extends Service {
 
                 if (obj.has("subjects")){
                     int r_count = obj.getJSONArray("subjects").length();
-                   /* Intent intent = new Intent(MainActivity.ACTION_MAIN_RECEIVER);
-                    intent.putExtra("count",r_count);
+                    ContentValues row1 = new ContentValues();
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
-                        String[] st = new String[5];
-                        st[0] = data.getString(0);
-                        st[1] = data.getString(2);
-                        st[2] = data.getString(1);
-                        st[3] = data.getString(3);
-                        st[4] = data.getString(4);
-                        intent.putExtra(Integer.toString(i),st);
+
+                        row1.put("_id", data.getString(0));
+                        row1.put("nazva", data.getString(1));
+                        row1.put("teacherInfo", data.getString(2));
+                        row1.put("mark", data.getString(3));
+                        row1.put("maxMark", data.getString(4));
+                        myDbHelper.inset1("main", row1);
                     }
-                    LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(intent);*/
+
                 }
 
                 if (obj.has("marks")){
                     int r_count = obj.getJSONArray("marks").length();
-
+                    ContentValues row2 = new ContentValues();
                     for (int i=0;i<r_count;i++){
+
                         JSONArray data = obj.getJSONArray("marks").getJSONArray(i);
-                        Log.i("KNEU_TOPCHIK", data.getString(0));
-                        Log.i("KNEU_TOPCHIK", data.getString(1));
-                        Log.i("KNEU_TOPCHIK", data.getString(2));
+                        row2.put("_id", data.getString(0));
+                        row2.put("data", data.getString(1));
+                        row2.put("marks", data.getString(2));
+                        Log.i("dfghdf", data.getString(1));
+                        myDbHelper.inset1("subMain", row2);
                     }
                 }
 

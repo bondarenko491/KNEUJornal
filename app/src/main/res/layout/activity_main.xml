@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_horizontal"
-                android:text="348"
+                android:id="@+id/text11"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ccc"
                 android:gravity="center_horizontal"
-                android:text="305"
+                android:id="@+id/text22"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
         <TableRow
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_horizontal"
-                android:text="348"
+                android:id="@+id/text33"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ccc"
                 android:gravity="center_horizontal"
-                android:text="305"
+                android:id="@+id/text44"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
         <TableRow
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_horizontal"
-                android:text="348"
+                android:id="@+id/text55"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
 
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ccc"
                 android:gravity="center_horizontal"
-                android:text="305"
+                android:id="@+id/text66"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
         <TableRow
@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_horizontal"
-                android:text="348"
+                android:id="@+id/text77"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
 

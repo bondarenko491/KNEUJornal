@@ -53,38 +53,55 @@ public class MainActivity extends AppCompatActivity {
             throw sqle;
         }
         Cursor myCursor = myDbHelper.onrawquary("SELECT * FROM main;");
-        String name;
+        String name, mark, maxMark;
         int i=1;
         while(myCursor.moveToNext()) {
-            name = myCursor.getString(1);
+            name = myCursor.getString(2);
+            mark = myCursor.getString(3);
+            maxMark = myCursor.getString(4);
+            String temp = mark + "|" + mark;
             switch (i) {
                 case 1:
                     TextView textView1 = findViewById(R.id.text1);
                     textView1.setText(name.toCharArray(), 0, name.length());
+                    TextView textView11 = findViewById(R.id.text11);
+                    textView11.setText(temp.toCharArray(), 0, temp.length());
                     break;
                 case 2:
                     TextView textView2 = findViewById(R.id.text2);
                     textView2.setText(name.toCharArray(), 0, name.length());
+                    TextView textView22 = findViewById(R.id.text22);
+                    textView22.setText(temp.toCharArray(), 0, temp.length());
                     break;
                 case 3:
                     TextView textView3 = findViewById(R.id.text3);
                     textView3.setText(name.toCharArray(), 0, name.length());
+                    TextView textView33 = findViewById(R.id.text33);
+                    textView33.setText(temp.toCharArray(), 0, temp.length());
                     break;
                 case 4:
                     TextView textView4 = findViewById(R.id.text4);
                     textView4.setText(name.toCharArray(), 0, name.length());
+                    TextView textView44 = findViewById(R.id.text44);
+                    textView44.setText(temp.toCharArray(), 0, temp.length());
                     break;
                 case 5:
                     TextView textView5 = findViewById(R.id.text5);
                     textView5.setText(name.toCharArray(), 0, name.length());
+                    TextView textView55 = findViewById(R.id.text55);
+                    textView55.setText(temp.toCharArray(), 0, temp.length());
                     break;
                 case 6:
                     TextView textView6 = findViewById(R.id.text6);
                     textView6.setText(name.toCharArray(), 0, name.length());
+                    TextView textView66 = findViewById(R.id.text66);
+                    textView66.setText(temp.toCharArray(), 0, temp.length());
                     break;
                 case 7:
                     TextView textView7 = findViewById(R.id.text7);
                     textView7.setText(name.toCharArray(), 0, name.length());
+                    TextView textView77 = findViewById(R.id.text77);
+                    textView77.setText(temp.toCharArray(), 0, temp.length());
                     break;
             }
             i++;
@@ -149,10 +166,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case "subjects":
-                        ContentValues row1 = new ContentValues();
+                        /*ContentValues row1 = new ContentValues();
                         String[] st = new String[5];
                         int r_count = intent.getIntExtra("count",0);
-
                         for (int i=0;i<r_count;i++){
                             st = intent.getStringArrayExtra(Integer.toString(i));
                             row1.put("_id", st[0]);
@@ -161,11 +177,8 @@ public class MainActivity extends AppCompatActivity {
                             row1.put("mark", st[3]);
                             row1.put("maxMark", st[4]);
                         }
-
-
                         myDbHelper.inset1("main", row1);
-
-                        break;
+                        break;*/
                 }
 
             }
