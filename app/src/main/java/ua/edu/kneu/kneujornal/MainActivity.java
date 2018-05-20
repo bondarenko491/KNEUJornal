@@ -142,21 +142,24 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getStringExtra("action")){
-                case "no_login":
-                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                    break;
+            if(intent!=null) {
+                switch (intent.getStringExtra("action")) {
+                    case "no_login":
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        break;
 
-                case "subjects":
-                    ContentValues row1 = new ContentValues();
-                    row1.put("_id", intent.getStringExtra("id"));
-                    row1.put("teacherInfo",  intent.getStringExtra("teacherInfo"));
-                    row1.put("nazva", intent.getStringExtra("nazva"));
-                    row1.put("mark", intent.getStringExtra("mark"));
-                    row1.put("maxMark", intent.getStringExtra("maxMark"));
-                    myDbHelper.inset1("main", row1);
+                    case "subjects":
+                        ContentValues row1 = new ContentValues();
+                        row1.put("_id", intent.getStringExtra("id"));
+                        row1.put("teacherInfo", intent.getStringExtra("teacherInfo"));
+                        row1.put("nazva", intent.getStringExtra("nazva"));
+                        row1.put("mark", intent.getStringExtra("mark"));
+                        row1.put("maxMark", intent.getStringExtra("maxMark"));
+                        myDbHelper.inset1("main", row1);
 
-                    break;
+                        break;
+                }
+
             }
         }
     };
