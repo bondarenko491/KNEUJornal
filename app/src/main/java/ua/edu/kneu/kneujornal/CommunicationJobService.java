@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,6 +120,19 @@ public class CommunicationJobService extends Service {
 
                     LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
                             .putExtra("success",true));
+                }
+
+                if (obj.has("subjects")){
+                    int r_count = obj.getInt("count");
+
+                    for (int i=0;i<r_count;i++){
+                        JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
+                       Log.i("KNEU_TOPCHIK", data.getString(0));
+                       Log.i("KNEU_TOPCHIK", data.getString(1));
+                        Log.i("KNEU_TOPCHIK", data.getString(2));
+                        Log.i("KNEU_TOPCHIK",data.getString(3));
+                        Log.i("KNEU_TOPCHIK",data.getString(4));
+                    }
                 }
 
             } catch (JSONException e) {
