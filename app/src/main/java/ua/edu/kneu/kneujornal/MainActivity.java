@@ -32,13 +32,14 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     static final String ACTION_MAIN_RECEIVER = "ACTION_MAIN_RECEIVER";
     LocalBroadcastManager bManager;
+    dataBaseHelper myDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dataBaseHelper myDbHelper = new dataBaseHelper(this);
+        myDbHelper = new dataBaseHelper(this);
 
         try {
             myDbHelper.createDataBase();
@@ -88,14 +89,6 @@ public class MainActivity extends AppCompatActivity {
             }
             i++;
         }
-        ContentValues row1 = new ContentValues();
-        //row1.put("_id", 10);
-        row1.put("teacherInfo", "Alice");
-        row1.put("nazva", "dghgh");
-        row1.put("mark", 1);
-        row1.put("maxMark", 7);
-
-        myDbHelper.inset1("main", row1);
 
         bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
@@ -155,11 +148,14 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case "subjects":
-                    intent.getStringExtra("id");
-                    intent.getStringExtra("teacherInfo");
-                    intent.getStringExtra("nazva");
-                    intent.getStringExtra("mark");
-                    intent.getStringExtra("maxMark");
+                    ContentValues row1 = new ContentValues();
+                    row1.put("_id", intent.getStringExtra("id"));
+                    row1.put("teacherInfo",  intent.getStringExtra("teacherInfo"));
+                    row1.put("nazva", intent.getStringExtra("nazva"));
+                    row1.put("mark", intent.getStringExtra("mark"));
+                    row1.put("maxMark", intent.getStringExtra("maxMark"));
+                    myDbHelper.inset1("main", row1);
+
                     break;
             }
         }

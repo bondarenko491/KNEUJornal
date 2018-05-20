@@ -129,8 +129,8 @@ public class CommunicationJobService extends Service {
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
                         LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(LoginActivity.ACTION_LOGIN_RESULT)
-                                .putExtra("id",data.getString(0)).putExtra("teacherInfo",data.getString(1))
-                                .putExtra("nazva",data.getString(2)).putExtra("mark",data.getString(3))
+                                .putExtra("id",data.getString(0)).putExtra("teacherInfo",data.getString(2))
+                                .putExtra("nazva",data.getString(1)).putExtra("mark",data.getString(3))
                                 .putExtra("maxMark",data.getString(4)));
                     }
                 }
