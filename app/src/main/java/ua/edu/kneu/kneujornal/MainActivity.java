@@ -3,6 +3,7 @@ package ua.edu.kneu.kneujornal;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dataBaseHelper myDbHelper;
-        myDbHelper = new dataBaseHelper(this);
+        dataBaseHelper myDbHelper = new dataBaseHelper(this);
 
         try {
             myDbHelper.createDataBase();
@@ -60,40 +60,42 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     TextView textView1 = findViewById(R.id.text1);
                     textView1.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
                 case 2:
                     TextView textView2 = findViewById(R.id.text2);
                     textView2.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
                 case 3:
                     TextView textView3 = findViewById(R.id.text3);
                     textView3.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
                 case 4:
                     TextView textView4 = findViewById(R.id.text4);
                     textView4.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
                 case 5:
                     TextView textView5 = findViewById(R.id.text5);
                     textView5.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
                 case 6:
                     TextView textView6 = findViewById(R.id.text6);
                     textView6.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
                 case 7:
                     TextView textView7 = findViewById(R.id.text7);
                     textView7.setText(name.toCharArray(), 0, name.length());
-                    i++;
                     break;
             }
+            i++;
         }
+        ContentValues row1 = new ContentValues();
+        //row1.put("_id", 10);
+        row1.put("teacherInfo", "Alice");
+        row1.put("nazva", "dghgh");
+        row1.put("mark", 1);
+        row1.put("maxMark", 7);
+
+        myDbHelper.inset1("main", row1);
 
         bManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter();
@@ -150,6 +152,14 @@ public class MainActivity extends AppCompatActivity {
             switch (intent.getStringExtra("action")){
                 case "no_login":
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    break;
+
+                case "subjects":
+                    intent.getStringExtra("id");
+                    intent.getStringExtra("teacherInfo");
+                    intent.getStringExtra("nazva");
+                    intent.getStringExtra("mark");
+                    intent.getStringExtra("maxMark");
                     break;
             }
         }

@@ -1,5 +1,6 @@
 package ua.edu.kneu.kneujornal;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -59,7 +60,7 @@ public class dataBaseHelper extends SQLiteOpenHelper{
 
         try{
             String myPath = DB_PATH + DB_NAME;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
         }catch(SQLiteException e){
             //база еще не существует
         }
@@ -99,7 +100,7 @@ public class dataBaseHelper extends SQLiteOpenHelper{
     public void openDataBase() throws SQLiteException{
         //открываем БД
         String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     @Override
@@ -120,7 +121,11 @@ public class dataBaseHelper extends SQLiteOpenHelper{
     public Cursor onrawquary(String quary)
     {
         return myDataBase.rawQuery(quary, null);
+    }
 
+    public void inset1(String quary, ContentValues row1)
+    {
+        myDataBase.insert(quary, null, row1);
     }
 
     // Здесь можно добавить вспомогательные методы для доступа и получения данных из БД
