@@ -143,7 +143,7 @@ public class CommunicationJobService extends Service {
                     int r_count = obj.getJSONArray("subjects").length();
                     ContentValues row1 = new ContentValues();
 
-                    myDbHelper.delete1("subjects");
+                    myDbHelper.delete1("main");
 
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
@@ -168,7 +168,6 @@ public class CommunicationJobService extends Service {
                         row2.put("_id", data.getString(0));
                         row2.put("data", data.getString(1));
                         row2.put("marks", data.getString(2));
-                        Log.i("dfghdf", data.getString(1));
                         myDbHelper.inset1("subMain", row2);
                     }
                 }
