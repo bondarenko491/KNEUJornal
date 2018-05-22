@@ -14,8 +14,7 @@ public class SubjInfoActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView subjName = findViewById(R.id.subj_name);
-        subjName.setText(getIntent().getStringExtra("subj"));
+        getIntent().getStringExtra("subj_id");
     }
 
     @Override

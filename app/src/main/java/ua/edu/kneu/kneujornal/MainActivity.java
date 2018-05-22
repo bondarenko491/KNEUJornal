@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void update_subj_list(){
         Cursor myCursor = myDbHelper.onrawquary("SELECT * FROM main;");
-        String name, mark, maxMark;
+        String name, mark, maxMark, id;
         boolean k = true;
         drowHeader();
 
@@ -116,11 +116,14 @@ public class MainActivity extends AppCompatActivity {
             name = myCursor.getString(2);
             mark = myCursor.getString(3);
             maxMark = myCursor.getString(4);
+            id = myCursor.getString(0);
+
             String temp = mark + "|" + maxMark;
 
             TableLayout table = findViewById(R.id.subj_list);
             TableRow nRow = new TableRow(table.getContext());
             nRow.setPadding(0,10,0,10);
+            nRow.setTag(id);
             if(!k) {
                 nRow.setBackgroundColor(table.getContext().getResources().getColor(R.color.gray));
                 k = true;
@@ -183,8 +186,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rowClick(View view) {
-        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj",
-                ((TextView)((TableRow)view).getVirtualChildAt(0)).getText()));
+        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj_id", (String)view.getTag()));
     }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
