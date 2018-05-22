@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
             TableLayout table = findViewById(R.id.subj_list);
             TableRow nRow = new TableRow(table.getContext());
-            nRow.setPadding(0,10,0,10);
+            nRow.setPadding(0,15,0,15);
             nRow.setTag(R.id.subj_id,id);
             nRow.setTag(R.id.subj_name,name);
             nRow.setTag(R.id.subj_info,info);
