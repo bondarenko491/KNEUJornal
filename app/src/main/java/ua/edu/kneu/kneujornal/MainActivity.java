@@ -124,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
             TableLayout table = findViewById(R.id.subj_list);
             TableRow nRow = new TableRow(table.getContext());
             nRow.setPadding(0,10,0,10);
-            nRow.setTag(0,id);
-            nRow.setTag(1,name);
-            nRow.setTag(2,info);
+            nRow.setTag(R.id.subj_id,id);
+            nRow.setTag(R.id.subj_name,name);
+            nRow.setTag(R.id.subj_info,info);
 
             if(!k) {
                 nRow.setBackgroundColor(table.getContext().getResources().getColor(R.color.gray));
@@ -190,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rowClick(View view) {
-        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj_id", (String)view.getTag(0))
-                .putExtra("subj_name",(String)view.getTag(1)).putExtra("subj_info",(String)view.getTag(2)));
+        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj_id", (String)view.getTag(R.id.subj_id))
+                .putExtra("subj_name",(String)view.getTag(R.id.subj_name)).putExtra("subj_info",(String)view.getTag(R.id.subj_info)));
     }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {

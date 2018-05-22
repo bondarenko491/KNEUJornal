@@ -2,6 +2,11 @@
     <string name="app_name">KNEU Jornal</string>
     <string name="title_activity_login">Sign in</string>
 
+
+    <item type="id" name="subj_id"/>
+    <item type="id" name="subj_name"/>
+    <item type="id" name="subj_info"/>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
