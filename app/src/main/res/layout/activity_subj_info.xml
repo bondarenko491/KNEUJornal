@@ -5,13 +5,64 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TableLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id = "@+id/subj_large_info"
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="#eeeeee"
         android:stretchColumns="*"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
+            <TextView android:id="@+id/subj_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Предмет"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:background="#cccccc"/>
+
+        <TableRow>
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Дата"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="#ccc"/>
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Оцінка"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="#ccc"/>
+        </TableRow>
+
+        <TableRow android:padding="2dp">
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="02.03.2018"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="#ffffff"/>
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="348"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="#ffffff"/>
+        </TableRow>
+
+        <TableRow android:padding="2dp">
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="06.07.2017"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="#ccc"/>
+            <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="305"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="#ccc"/>
+        </TableRow>
     </TableLayout>
 
 
