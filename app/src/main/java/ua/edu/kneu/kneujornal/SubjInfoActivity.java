@@ -67,7 +67,7 @@ public class SubjInfoActivity extends AppCompatActivity {
             try {
 
             java.util.Date res = df.parse(data);
-            formattedTime = output.format(res); // Это результат
+            formattedTime = output.format(res);
 
             }
             catch (ParseException e1)
@@ -115,6 +115,14 @@ public class SubjInfoActivity extends AppCompatActivity {
         Name.setPadding(0,10,0,0);
         Name.setText(getIntent().getStringExtra("subj_name"));
 
+        TextView Info = new TextView(table.getContext());
+        Info.setGravity(Gravity.CENTER_HORIZONTAL);
+        Info.setTextAppearance(this,R.style.TextAppearance_AppCompat_Large);
+        Info.setLayoutParams(new TableLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
+        Info.setBackgroundColor(table.getContext().getResources().getColor(R.color.gray));
+        Info.setPadding(0,10,0,0);
+        Info.setText(getIntent().getStringExtra("subj_info"));
+
         TableRow nRow = new TableRow(table.getContext());
         nRow.setPadding(0,0,0,15);
         nRow.setBackgroundColor(table.getContext().getResources().getColor(R.color.gray));
@@ -132,6 +140,7 @@ public class SubjInfoActivity extends AppCompatActivity {
         mark2.setText("Оцінка");
 
         table.addView(Name);
+        table.addView(Info);
         nRow.addView(subjName);
         nRow.addView(mark2);
         table.addView(nRow);
