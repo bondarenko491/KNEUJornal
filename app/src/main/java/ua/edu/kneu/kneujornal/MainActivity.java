@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void update_subj_list(){
         Cursor myCursor = myDbHelper.onrawquary("SELECT * FROM main;");
-        String name, mark, maxMark, id;
+        String name, mark, maxMark, id, info;
         boolean k = true;
         drowHeader();
 
@@ -117,13 +117,17 @@ public class MainActivity extends AppCompatActivity {
             mark = myCursor.getString(3);
             maxMark = myCursor.getString(4);
             id = myCursor.getString(0);
+            info = myCursor.getString(1);
 
             String temp = mark + "|" + maxMark;
 
             TableLayout table = findViewById(R.id.subj_list);
             TableRow nRow = new TableRow(table.getContext());
             nRow.setPadding(0,10,0,10);
-            nRow.setTag(id);
+            nRow.setTag(0,id);
+            nRow.setTag(1,name);
+            nRow.setTag(2,info);
+
             if(!k) {
                 nRow.setBackgroundColor(table.getContext().getResources().getColor(R.color.gray));
                 k = true;
@@ -152,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             TextView mark2 = new TextView(nRow.getContext());
             mark2.setGravity(Gravity.CENTER_HORIZONTAL);
             mark2.setTextAppearance(this,R.style.TextAppearance_AppCompat_Medium);
-            subjName.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
+            mark2.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT));
             mark2.setText(temp.toCharArray(), 0, temp.length());
 
             nRow.addView(subjName);
@@ -177,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         TextView mark2 = new TextView(nRow.getContext());
         mark2.setGravity(Gravity.CENTER_HORIZONTAL);
         mark2.setTextAppearance(this,R.style.TextAppearance_AppCompat_Large);
-        subjName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mark2.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         mark2.setText("Підсумок");
 
         nRow.addView(subjName);
@@ -186,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rowClick(View view) {
-        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj_id", (String)view.getTag()));
+        startActivity(new Intent(MainActivity.this,SubjInfoActivity.class).putExtra("subj_id", (String)view.getTag(0))
+                .putExtra("subj_name",(String)view.getTag(1)).putExtra("subj_info",(String)view.getTag(2)));
     }
 
     private BroadcastReceiver bReceiver = new BroadcastReceiver() {
