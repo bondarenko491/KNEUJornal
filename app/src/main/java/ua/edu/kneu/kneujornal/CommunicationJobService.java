@@ -102,6 +102,10 @@ public class CommunicationJobService extends Service {
                     }
                     mSettings.edit().remove("auth_token").commit();
                     token = "";
+
+                    myDbHelper.delete1("main");
+                    myDbHelper.delete1("subMain");
+
                     LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
                             .putExtra("action","no_login"));
                     break;
@@ -143,16 +147,14 @@ public class CommunicationJobService extends Service {
                     int r_count = obj.getJSONArray("subjects").length();
                     ContentValues row1 = new ContentValues();
 
-                    myDbHelper.delete1("main");
-
                     for (int i=0;i<r_count;i++){
                         JSONArray data = obj.getJSONArray("subjects").getJSONArray(i);
 
                         row1.put("_id", data.getString(0));
                         row1.put("nazva", data.getString(1));
                         row1.put("teacherInfo", data.getString(2));
-                        row1.put("mark", data.getString(3));
-                        row1.put("maxMark", data.getString(4));
+                        row1.put("mark", 0);
+                        row1.put("maxMark", data.getString(3));
                         myDbHelper.inset1("main", row1);
                     }
                     LocalBroadcastManager.getInstance(CommunicationJobService.this).sendBroadcast(new Intent(MainActivity.ACTION_MAIN_RECEIVER)
